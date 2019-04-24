@@ -1,0 +1,57 @@
+buildscript {      // Configuration for building
+  repositories {
+    jcenter()      // Bintray's repository - a fast Maven Central mirror & more
+    mavenCentral()
+  }
+  dependencies {
+    classpath 'com.google.cloud.tools:appengine-gradle-plugin:1.+' // Latest 1.x.x release
+    classpath 'org.akhikhl.gretty:gretty:+'
+  }
+}
+
+repositories {   // repositories for JARs you access in your code
+  maven {
+    url 'https://maven-central.storage.googleapis.com'             // Google's mirror of Maven Central
+  }
+
+//maven {
+//  url 'https://oss.sonatype.org/content/repositories/snapshots' // SNAPSHOT repository if needed
+//}
+
+  jcenter()
+  mavenCentral()
+}
+
+apply plugin: 'java'
+apply plugin: 'war'
+apply plugin: 'org.akhikhl.gretty'
+apply plugin: 'com.google.cloud.tools.appengine'
+
+dependencies {
+  providedCompile 'javax.servlet:javax.servlet-api:3.1.0'
+  providedCompile 'com.google.appengine:appengine:+'
+  compile 'au.com.codeka:carrot:2.4.2'
+// Add your dependencies here.
+
+}
+
+gretty {
+    httpPort = 8080
+    contextPath = '/'
+    servletContainer = 'jetty9'  // What App Engine Flexible uses
+}
+
+appengine {
+
+  deploy {   // deploy configuration
+    stopPreviousVersion = true  // default - stop the current version
+    promote = true              // default - & make this the current version
+  }
+
+}
+
+group = 'com.example.appengine'   // Generated output GroupId
+version = '1.0-SNAPSHOT'          // Version in generated output
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
