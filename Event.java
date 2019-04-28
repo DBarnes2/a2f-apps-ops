@@ -10,8 +10,20 @@ public class Event implements Comparable<Event>{
    
    }
    
-   public int compareTo(Event other) {
-      return -1;
+   public int compareTo(Event other ) {
+      if (this.date > other.date) {
+         return 1;
+      } else if (this.date < other.date) {
+         return -1;
+      } else {
+         if (this.startTime > other.startTime) {
+            return 1;
+         } else if (this.startTime < other.startTime) {
+            return -1;
+         } else {
+            return 0;
+         }
+      } 
    }
 
 }
